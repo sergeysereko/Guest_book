@@ -1,0 +1,104 @@
+﻿@model IEnumerable<GuestBook.BLL.DTO.MessageDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+
+            getAllMessages();
+
+
+            function getAllMessages() {
+                $.ajax({
+                    url: '@Url.Action("GetMessages", "Home")',
+                    type: 'GET',
+                    success: function (response) {
+                        let messages = JSON.parse(response);
+                        let messageHtml = "";
+
+                        $.each(messages, function (index, message) {
+
+                            messageHtml += '<div class="message">';
+                            messageHtml += '<p class="user">' + message.User + '</p>';
+                            messageHtml += '<p class="date">' + message.MessageDate + '</p>';
+                            messageHtml += '<p class="text">' + message.Message_text + '</p>';
+                            messageHtml += '</div>';
+                        });
+
+                        $("#message-list").html(messageHtml);
+                    },
+                    error: function (x, y, z) {
+                        alert(x + '\n' + y + '\n' + z);
+                    }
+                });
+            }
+
+
+
+            //SAVE
+            $("#btn-insert-message").on("click", function () {
+                let formData = new FormData();
+                formData.append("message", $("#message").val()); 
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("CreateMessage", "Home")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllMessages();
+                    },
+                    error: function (x, y, z) {
+                        alert(x + '\n' + y + '\n' + z);
+                    }
+                });
+            });
+
+            function resetForm() {
+                $("#message").val("");
+            }
+
+
+
+
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+ @if (Context.Session.GetString("login") != null)
+{
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form>
+                <div class="row g-3">
+                    <div class="col-sm-12">
+                        <label for="message" class="form-label">Ваше сообщение</label>
+                        <textarea class="form-control" id="message" placeholder="Введите текст сообщения" rows="3" cols="50" autocomplete="off" required></textarea>
+                    </div>
+                    <div>
+                        <a href="javascript:void(0)" class="btn btn-primary" id="btn-insert-message">Оставить Сообщение</a>
+                    </div> 
+
+            </form>
+
+        </div>
+        <br />
+    </div>
+}
+
+<div id="message-list">
+</div>
+

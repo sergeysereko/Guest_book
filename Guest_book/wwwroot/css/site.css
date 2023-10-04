@@ -1,0 +1,55 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: bisque;
+    display: flex;
+    flex-direction:column;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #DEE2E6;
+    background-color: #FFD2B7;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 20px;
+    margin-bottom:5px;
+}
+
+.user {
+    padding-left: 15px;
+    margin-bottom: 0px;
+    color: gray;
+}
+
+.date {
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-size: xx-small;
+    padding-left: 15px;
+    color: gray;
+}
+
+.text {
+    font-family: Corbel;
+    padding-left: 15px;
+}
