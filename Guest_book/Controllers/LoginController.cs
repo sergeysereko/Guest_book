@@ -26,32 +26,36 @@ namespace Guest_book.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-
-
+        //[HttpGet]
+        //public IActionResult Login()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Login logon)
+        
+        public async Task<IActionResult> Login()
         {
+            Login logon = new Login();
+            string userName = Request.Form["username"];
+            string pass = Request.Form["password"];
+
+            logon.UserName = userName;
+            logon.Password = pass;
+
             if (ModelState.IsValid)
             {
                 var users = await userService.GetUsers();
                 if (users.Count() == 0)
                 {
                     ModelState.AddModelError("", "Wrong login or password!");
-                    return View(logon);
+                    return Json(new { success = false }); 
                 }
                 var usersf = users.Where(a => a.Name == logon.UserName);
                 if (usersf.ToList().Count == 0)
                 {
                     ModelState.AddModelError("", "Wrong login or password!");
-                    return View(logon);
+                    return Json(new { success = false }); 
                 }
                 var user = usersf.First();
                 string? salt = user.Salt;
@@ -62,14 +66,51 @@ namespace Guest_book.Controllers
                 if (user.Pwd != hash.ToString())
                 {
                     ModelState.AddModelError("", "Wrong login or password!");
-                    return View(logon);
+                    return Json(new { success = false }); 
                 }
                 HttpContext.Session.SetString("login", user.Name);
 
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = true }); 
             }
-            return View(logon);
+            return Json(new { success = false }); 
         }
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(Login logon)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var users = await userService.GetUsers();
+        //        if (users.Count() == 0)
+        //        {
+        //            ModelState.AddModelError("", "Wrong login or password!");
+        //            return View(logon);
+        //        }
+        //        var usersf = users.Where(a => a.Name == logon.UserName);
+        //        if (usersf.ToList().Count == 0)
+        //        {
+        //            ModelState.AddModelError("", "Wrong login or password!");
+        //            return View(logon);
+        //        }
+        //        var user = usersf.First();
+        //        string? salt = user.Salt;
+
+        //        string passw = logon.Password;
+        //        var hash = await userService.GetHashCode(salt, passw);
+
+        //        if (user.Pwd != hash.ToString())
+        //        {
+        //            ModelState.AddModelError("", "Wrong login or password!");
+        //            return View(logon);
+        //        }
+        //        HttpContext.Session.SetString("login", user.Name);
+
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    return View(logon);
+        //}
 
 
 
@@ -96,7 +137,7 @@ namespace Guest_book.Controllers
                 user.Salt = passPlusSult.Salt;
                 await userService.CreateUser(user);
 
-                return RedirectToAction("Login");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(reg);

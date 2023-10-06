@@ -100,31 +100,33 @@ namespace Guest_book.Controllers
     }
 
 
-    //[HttpPost]
-    //[ValidateAntiForgeryToken]
-    //public async Task<IActionResult> Create(MessageDTO message)
-    //{
-    //    string login = HttpContext.Session.GetString("login");
-    //    if (!string.IsNullOrEmpty(login))
-    //    {
-    //        var user = await userService.GetUser(login);
-    //        if (user != null)
-    //        {
-    //            int userId = user.Id;
-    //            message.MessageDate = DateTime.Now;
-    //            message.Id_User = userId;
-    //            message.User = user.Name;
-    //        }
-    //    }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(MessageDTO message)
+        //{
+        //    string login = HttpContext.Session.GetString("login");
+        //    if (!string.IsNullOrEmpty(login))
+        //    {
+        //        var user = await userService.GetUser(login);
+        //        if (user != null)
+        //        {
+        //            int userId = user.Id;
+        //            message.MessageDate = DateTime.Now;
+        //            message.Id_User = userId;
+        //            message.User = user.Name;
+        //        }
+        //    }
 
-    //    if (ModelState.IsValid)
-    //    {
-    //        await messageService.CreateMessage(message);
-    //        return RedirectToAction("Index", "Home");
-    //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        await messageService.CreateMessage(message);
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
-    //    return View(message);
-    //}
+        //    return View(message);
+        //}
+
+
 
 
     }

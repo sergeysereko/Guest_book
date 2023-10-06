@@ -13,6 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom box-shadow mb-3" style="background-color: #FFD2B7;">
             <div class="container-fluid">
+                
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Гостевая_книга</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -20,32 +21,31 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        
-                        @if (Context.Session.GetString("login") == null)
-                        {
+                     
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Вход</a>
+                               @*  <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Вход</a> *@
+                                <a class="nav-link text-dark" id="loginButton">Вход</a>
                                
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Register">Регистрация</a>
+                                <a class="nav-link text-dark" id="regButton" asp-area="" asp-controller="Login" asp-action="Register">Регистрация</a>
                             </li>
-                        }
-                        @if (Context.Session.GetString("login") != null)
-                        {
-                            <li class="nav-item">
-                                <label class="nav-link text-dark" style="font-weight:bold">Здравствуйте, @Context.Session.GetString("login")</label>
+                      
+                      @*   @if (Context.Session.GetString("login") != null)
+                        { *@
+                        <li class="nav-item">
+                            <span class="nav-link text-dark" id="greetings" style="font-weight:bold; display: none;">,</span>
                             </li>
 
 @*                             <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Create">Оствить сообщение</a>
                             </li> *@
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Выход</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="logout" style="display: none;" asp-area="" asp-controller="Home" asp-action="Logout">Выход</a>
                             </li>
                                                
-                        } 
+                       @*  }  *@
 
                     </ul>
                 </div>

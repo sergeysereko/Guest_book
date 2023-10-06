@@ -9,10 +9,10 @@
     <script>
         $(document).ready(function () {
 
-
+            // Show all message
             getAllMessages();
 
-
+            // Show all message
             function getAllMessages() {
                 $.ajax({
                     url: '@Url.Action("GetMessages", "Home")',
@@ -40,6 +40,8 @@
 
 
 
+
+
             //SAVE
             $("#btn-insert-message").on("click", function () {
                 let formData = new FormData();
@@ -51,7 +53,7 @@
                     processData: false,
                     data: formData,
                     success: function (response) {
-                        alert(response);
+                       // alert(response);
                         resetForm();
                         getAllMessages();
                     },
@@ -61,9 +63,46 @@
                 });
             });
 
+            //Reset message textarea
             function resetForm() {
                 $("#message").val("");
             }
+
+            // Login
+
+            $("#loginButton").on("click", function () {
+                let username = prompt("Введите логин:");
+                let password = prompt("Введите пароль:");
+
+                let formData = new FormData();
+                formData.append("username", username);
+                formData.append("password", password);
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Login", "Login")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+
+                    success: function (response) {
+                        if (response.success) {
+                            
+                            $("#loginButton").hide();
+                            $("#regButton").hide();
+                            $("#greetings").text("Здравствуйте, " + username).show();
+                            $("#logout").css("display", "block");
+                            $("#textareamessage").css("display", "block");
+                            getAllMessages();
+                        } else {
+                            alert("Ошибка входа. Проверьте логин и пароль.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Произошла ошибка: " + error);
+                    }
+                });
+            });
 
 
 
@@ -77,10 +116,7 @@
 
 
 
- @if (Context.Session.GetString("login") != null)
-{
-
-    <div class="row">
+    <div class="row" id="textareamessage" style="display:none">
         <div class="col-sm-12">
             <form>
                 <div class="row g-3">
@@ -91,13 +127,13 @@
                     <div>
                         <a href="javascript:void(0)" class="btn btn-primary" id="btn-insert-message">Оставить Сообщение</a>
                     </div> 
-
+                </div>
             </form>
 
         </div>
         <br />
     </div>
-}
+
 
 <div id="message-list">
 </div>
